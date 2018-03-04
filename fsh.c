@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
+#include <errno.h>
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -13,11 +15,25 @@ char* substring(char* input,int len){
 	return buffer;
 }
 
+int stringToInt(char* input,int start,int len){
+	int code=0;
+	int positive=1;
+	if(input[start]=='-'){positive=-1;start++;}
+
+	while(start!=len&&input[start]!=' '){
+		code*=10;
+		code+=(input[start]-'0');
+		start++;
+	}
+	return code*positive;
+}
+
 void execute(char* input){
-		if(strncmp(input,"pwd",3)==0){
-			char* a=getcwd(0,0);
-			printf("%s\n",a);
-			free(a);
+		int n=strlen(input);
+		if(strncmp(input+n-3,"pwd",3)==0){
+			char* dir=getcwd(0,0);
+			printf("%s\n",dir);
+			free(dir);
 		}
 		if(strncmp(input,"cd",2)==0){
 			int id=chdir(input+3);
@@ -28,6 +44,16 @@ void execute(char* input){
 			if(strlen(input)>4)exitCode=input[5]-'0';
 			free(input);
 			exit(exitCode);
+		}
+		if(strncmp(input,"?",1)==0){
+			printf("Welcome to the free shell!\n");
+		}
+		if(strlen(input)>=4&&strncmp(input,"kill",4)==0){
+			n--;
+			while(input[n]!=' ')n--;
+			int a=stringToInt(input,5,strlen(input));
+			int b=stringToInt(input,n+1,strlen(input));
+			kill(b,-a); // no idea why: signalId is negative but it should be positive
 		}
 		free(input);
 }
@@ -43,7 +69,7 @@ int main(int argc,char** argv){
 		else input=readline("free shell: ");
 
 		n=strlen(input);
-
+		//printf("%s\n",input);
 		for(int i=0;i<n;i++){
 			if(input[i]==';'||i==n-1){
 				if(i==n-1)i++;

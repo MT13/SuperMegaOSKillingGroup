@@ -1,1 +1,1 @@
-5333 is running. should be dead
+./tests/kill.test: line 7: 10334 Killed                  sleep 100
