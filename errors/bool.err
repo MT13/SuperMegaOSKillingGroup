@@ -22,8 +22,8 @@ EXPECTED:
 2018-03-04
 total 136
 drwxrwxr-x 2 levan levan  4096 Mar  4 18:44 errors
--rwxrwxr-x 1 levan levan 13304 Mar  4 18:47 fsh
--rw-rw-r-- 1 levan levan  1795 Mar  4 18:47 fsh.c
+-rwxrwxr-x 1 levan levan 13400 Mar  4 18:57 fsh
+-rw-rw-r-- 1 levan levan  1930 Mar  4 18:57 fsh.c
 -rw-rw-r-- 1 levan levan   143 Mar  4 18:44 JonahTest.c
 -rw-rw-r-- 1 levan levan    74 Mar  4 18:44 Makefile
 drwxrwxr-x 2 levan levan  4096 Mar  4 18:44 outs

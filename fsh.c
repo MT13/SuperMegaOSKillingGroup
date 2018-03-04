@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
-#include <errno.h>
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -55,6 +54,12 @@ void execute(char* input){
 			int b=stringToInt(input,n+1,strlen(input));
 			kill(b,-a); // no idea why: signalId is negative but it should be positive
 		}
+		
+		if(strncmp(input,"nice",4)==0){
+			if(strlen(input)==4)printf("%d\n",nice(0));
+			else printf("%d\n",nice(stringToInt(input,8,strlen(input))));
+		}
+
 		free(input);
 }
 
