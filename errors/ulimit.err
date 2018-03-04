@@ -1,0 +1,8 @@
+ulimit results differ
+ulimit -q value empty
+ulimit -u value empty
+ulimit -p value empty
+ulimit -s value empty
+ulimit -e value empty
+./tests/ulimit.test: line 30: [: -ne: unary operator expected
+./tests/ulimit.test: line 36: [: -ne: unary operator expected

@@ -1,0 +1,33 @@
+#! /bin/bash
+
+bool_res1=$(ls bla || echo no dir)
+bool_res=$($UNDER_TEST -c "ls bla || echo no dir")
+
+final_res=0
+if [ "$bool_res" != "$bool_res1" ]; then
+  >&2 printf "bool test #1 failed \nEXPECTED:\n%s \nACTUAL:\n%s\n" "$bool_res1" "$bool_res"
+  final_res=1
+fi
+
+bool_res1=$(ls || echo no dir)
+bool_res=$($UNDER_TEST -c "ls || echo no dir")
+if [ "$bool_res" != "$bool_res1" ]; then
+  >&2 printf "bool test #2 failed \nEXPECTED:\n%s \nACTUAL:\n%s\n" "$bool_res1" "$bool_res"
+  final_res=1
+fi
+
+bool_res1=$(date +%F && ls -l && echo no dir)
+bool_res=$($UNDER_TEST -c "date +%F && ls -l && echo no dir")
+if [ "$bool_res" != "$bool_res1" ]; then
+  >&2 printf "bool test #3 failed \nEXPECTED:\n%s \nACTUAL:\n%s\n" "$bool_res1" "$bool_res"
+  final_res=1
+fi
+
+bool_res1=$(ls / && ls none_existing_dir || echo no dir)
+bool_res=$($UNDER_TEST -c "ls / && ls none_existing_dir || echo no dir")
+if [ "$bool_res" != "$bool_res1" ]; then
+  >&2 echo "bool test #4 failed"
+  final_res=1
+fi
+
+exit $final_res

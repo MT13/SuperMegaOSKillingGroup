@@ -1,0 +1,42 @@
+#! /bin/bash
+
+res=0
+
+tmp_file1=$(mktemp)
+tmp_file2=$(mktemp)
+
+compare_and_print () {
+  cmp --silent $1 $2
+  if [ "$?" != 0 ]; then
+    >&2 echo "ulimit results differ"
+  fi
+}
+
+ulimit -a > $tmp_file1
+$UNDER_TEST -c "ulimit -a > $tmp_file2"
+compare_and_print $tmp_file1 $tmp_file2
+
+flags=( '-q' '-u' '-p' '-s' '-e' )
+for i in "${flags[@]}"
+do
+  ulimit_res=$($UNDER_TEST -c "ulimit $i")
+  if [ -z "$ulimit_res" ]; then
+    >&2 echo "ulimit $i value empty"
+    res=1
+  fi
+done
+
+ulimit_res=$($UNDER_TEST -c "ulimit -n 1023; ulimit -n")
+if [ $ulimit_res -ne 1023 ]; then
+  >&2 echo "ulimit -n returned incorrect value $ulimit_res"
+  res=1
+fi
+
+ulimit_res=$(ulimit -s 8191; $UNDER_TEST -c "ulimit -s")
+if [ $ulimit_res -ne 8191 ]; then
+  >&2 echo "ulimit -s returned incorrect value $ulimit_res"
+  res=1
+fi
+
+rm $tmp_file2 $tmp_file1
+exit $res

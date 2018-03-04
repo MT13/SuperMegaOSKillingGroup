@@ -1,0 +1,35 @@
+ls: cannot access 'bla': No such file or directory
+bool test #1 failed 
+EXPECTED:
+no dir 
+ACTUAL:
+
+bool test #2 failed 
+EXPECTED:
+errors
+fsh
+fsh.c
+Makefile
+outs
+Project 1 -- Shell - Google Docs.pdf
+README.md
+tests 
+ACTUAL:
+
+bool test #3 failed 
+EXPECTED:
+2018-03-04
+total 128
+drwxrwxr-x 2 levan levan  4096 Mar  4 16:02 errors
+-rwxrwxr-x 1 levan levan  9120 Mar  4 17:00 fsh
+-rw-rw-r-- 1 levan levan  1115 Mar  4 17:00 fsh.c
+-rw-rw-r-- 1 levan levan    74 Mar  3 21:21 Makefile
+drwxrwxr-x 2 levan levan  4096 Mar  4 16:02 outs
+-rw-rw-r-- 1 levan levan 90930 Mar  3 16:57 Project 1 -- Shell - Google Docs.pdf
+-rw-rw-r-- 1 levan levan   103 Mar  3 16:57 README.md
+drwxrwxr-x 2 levan levan  4096 Mar  4 16:52 tests
+no dir 
+ACTUAL:
+
+ls: cannot access 'none_existing_dir': No such file or directory
+bool test #4 failed
