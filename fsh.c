@@ -7,6 +7,20 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+static const char INPUT_ABOUT[] = "?";
+static const char INPUT_CD[] = "cd";
+static const char INPUT_PWD[] = "pwd";
+static const char INPUT_EXIT[] = "exit";
+static const char INPUT_ULIMIT[] = "ulimit";
+static const char INPUT_NICE[] = "nice";
+static const char INPUT_KILL[] = "kill";
+static const char INPUT_TYPE[] = "type";
+static const char INPUT_ECHO[] = "echo";
+static const char INPUT_EXPORT[] = "export";
+
+
+static const char STRING_ABOUT[] = "This is free shell!\n";
+
 char* substring(char* input,int len){
 	char* buffer=(char*)malloc(sizeof(char*)*(len+1));
 	memcpy(buffer,input,len);
@@ -27,27 +41,35 @@ int stringToInt(char* input,int start,int len){
 	return code*positive;
 }
 
+void  signalKiller(int s){
+	if (s == SIGINT){
+    	signal(SIGINT, signalKiller);
+	} else if (s == SIGTSTP){
+		signal(SIGTSTP, signalKiller);
+	}
+}
+
 void execute(char* input){
 		int n=strlen(input);
-		if(strncmp(input+n-3,"pwd",3)==0){
+		if(strncmp(input+n-3,INPUT_PWD,3)==0){
 			char* dir=getcwd(0,0);
 			printf("%s\n",dir);
 			free(dir);
 		}
-		if(strncmp(input,"cd",2)==0){
+		if(strncmp(input,INPUT_CD,2)==0){
 			int id=chdir(input+3);
 			if(id==-1){}// such directory does not exist
 		}
-		if(strlen(input)>=4&&strncmp(input,"exit",4)==0){
+		if(strlen(input)>=4&&strncmp(input,INPUT_EXIT,4)==0){
 			int exitCode=0;
 			if(strlen(input)>4)exitCode=input[5]-'0';
 			free(input);
 			exit(exitCode);
 		}
-		if(strncmp(input,"?",1)==0){
-			printf("Welcome to the free shell!\n");
+		if(strncmp(input,INPUT_ABOUT,1)==0){
+			printf(STRING_ABOUT);
 		}
-		if(strlen(input)>=4&&strncmp(input,"kill",4)==0){
+		if(strlen(input)>=4&&strncmp(input,INPUT_KILL,4)==0){
 			n--;
 			while(input[n]!=' ')n--; //add multiple spaces at the end case
 			int a=stringToInt(input,5,strlen(input)); // add default signal case
@@ -55,7 +77,7 @@ void execute(char* input){
 			kill(b,-a); // no idea why: signalId is negative but it should be positive
 		}
 		
-		if(strncmp(input,"nice",4)==0){
+		if(strncmp(input,INPUT_NICE,4)==0){
 			if(strlen(input)==4)printf("%d\n",nice(0));
 			else printf("%d\n",nice(stringToInt(input,8,strlen(input))));
 		}
@@ -68,10 +90,15 @@ int main(int argc,char** argv){
 	char* input;
 	int n,previousPoint;
 
+	signal(SIGINT, signalKiller);
+	signal(SIGTSTP, signalKiller);
+
 	while(1){
 		previousPoint=0;
 		if(argc==3)input=argv[2];
 		else input=readline("free shell: ");
+
+		add_history(input);
 
 		n=strlen(input);
 		//printf("%s\n",input);
