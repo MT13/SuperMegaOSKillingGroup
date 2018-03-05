@@ -49,8 +49,8 @@ void execute(char* input){
 		}
 		if(strlen(input)>=4&&strncmp(input,"kill",4)==0){
 			n--;
-			while(input[n]!=' ')n--;
-			int a=stringToInt(input,5,strlen(input));
+			while(input[n]!=' ')n--; //add multiple spaces at the end case
+			int a=stringToInt(input,5,strlen(input)); // add default signal case
 			int b=stringToInt(input,n+1,strlen(input));
 			kill(b,-a); // no idea why: signalId is negative but it should be positive
 		}
