@@ -109,9 +109,7 @@ fsh_builtin_cmd *find_cmd(char *cmd)
 void execute(char* input){
 
 		int n=strlen(input);
-
 		char buffer[10];
-
 		int result;
 
 		#ifdef DEBUG
