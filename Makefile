@@ -3,8 +3,11 @@ CC 		= gcc
 FLAGS 	= -Wall
 RM    	= /bin/rm -rf
 
-all: fsh.c cd echo help kill nice pwd type ulimit
-	$(CC) $(FLAGS) -o fsh fsh.c cd.o echo.o help.o kill.o nice.o pwd.o type.o ulimit.o -lreadline
+all: fsh.c helper cd echo help kill nice pwd type ulimit 
+	$(CC) $(FLAGS) -o fsh fsh.c helper.o cd.o echo.o help.o kill.o nice.o pwd.o type.o ulimit.o -lreadline
+
+helper: helper.c
+	$(CC) $(FLAGS) -c helper.c
 
 cd: cd.c
 	$(CC) $(FLAGS) -c cd.c
