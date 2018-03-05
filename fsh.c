@@ -81,13 +81,12 @@ void  signalKiller(int s){
 
 /*
  * 	Function:   	find_cmd(char *)
-
- * 	Description: 	looks for builtin command
- 				 	provided by caller. 
-
- 	Returns:		command struct if found.
- 					Null if not found.
  *
+ * 	Description: 	looks for builtin command
+ *				 	provided by caller. 
+ *
+ *	Returns:		command struct if found.
+ *					Null if not found.
  */
 
 fsh_builtin_cmd *find_cmd(char *cmd)
@@ -124,7 +123,6 @@ void execute(char* input){
 			if (input[i] == ' ' || input[i] == '\0')
 			{
 				strncpy(buffer, input, i);
-
 				buffer[i] = '\0';
 
 				#ifdef DEBUG
