@@ -1,0 +1,2 @@
+pipe results differ ls -l /etc | tail -n +2 | sort
+pipe results differ echo Bla && ls -l /etc | sort -r | wc -l || echo Blu

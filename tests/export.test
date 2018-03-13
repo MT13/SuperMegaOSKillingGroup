@@ -1,0 +1,19 @@
+#! /bin/bash
+
+res=0
+
+export TEST_123="some_str"
+echo_res=$($UNDER_TEST -c "echo $TEST_123")
+if [ "$echo_res" != "some_str" ] ; then
+  >&2 echo "exported var not equal: <$echo_res>"
+  res=1
+fi
+
+echo_res=$($UNDER_TEST -c "export bla=1 && env | grep bla")
+echo $echo_res
+if [ "$echo_res" != "bla=1" ] ; then
+  >&2 echo "exported var not equal: <$echo_res>"
+  res=1
+fi
+
+exit $res
